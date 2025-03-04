@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import { Checkbox, Box, Typography, TextField, Button } from "@mui/material";
 
-const TodoList = () => {
+interface TodoListProps {
+  todoText: string;
+  isCompleted: boolean; // isCompleted prop 추가
+}
+
+const TodoList = ({
+  todoText,
+  isCompleted: initialIsCompleted,
+}: TodoListProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [todoText, setTodoText] = useState("작성한문구");
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [editedText, setEditedText] = useState(todoText);
+  const [isCompleted, setIsCompleted] = useState(initialIsCompleted);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -15,7 +23,7 @@ const TodoList = () => {
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTodoText(e.target.value);
+    setEditedText(e.target.value);
   };
 
   const handleCheckboxChange = () => {
@@ -49,7 +57,7 @@ const TodoList = () => {
         />
         {isEditing ? (
           <TextField
-            value={todoText}
+            value={editedText} // currentText 대신 editedText 사용
             onChange={handleTextChange}
             variant="standard"
             fullWidth
@@ -66,7 +74,7 @@ const TodoList = () => {
               color: isCompleted ? "gray" : "inherit",
             }}
           >
-            {todoText}
+            {editedText} {/* todoText 대신 editedText 사용 */}
           </Typography>
         )}
       </Box>

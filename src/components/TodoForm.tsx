@@ -1,21 +1,35 @@
+import { useState } from "react";
 import { Box, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import Add from "@mui/icons-material/Add";
 
-function TodoForm() {
+interface TodoFormProps {
+  onSubmit: (text: string) => void;
+}
+const TodoForm = ({ onSubmit }: TodoFormProps) => {
+  const [inputText, setInputText] = useState("");
+
+  console.log("commit test");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (inputText.trim()) {
+      onSubmit(inputText);
+      setInputText("");
+    }
+  };
   return (
     <Box
-      sx={{
-        display: "flex",
-        flexDirection: "row",
-        gap: 1,
-        justifyContent: "space-between",
-      }}
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{ display: "flex", gap: 1 }}
     >
       <TextField
         fullWidth
         label="Add a New Todo"
         variant="outlined"
+        value={inputText}
+        onChange={(e) => setInputText(e.target.value)}
         sx={{ flex: 1 }}
       />
       <Button
@@ -34,6 +48,6 @@ function TodoForm() {
       ></Button>
     </Box>
   );
-}
+};
 
 export default TodoForm;
